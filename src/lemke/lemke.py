@@ -1,12 +1,11 @@
-#!/usr/bin/python
 # LCP solver
 
 import sys
 import fractions 
 import math # gcd
 
-import columnprint
-import utils
+from . import columnprint
+from . import utils
 
 # global defaults
 lcpfilename="lcp"
@@ -525,13 +524,8 @@ class tableau:
             self.outstatistics()
     #######  end of class tableau
 
-if __name__ == "__main__":
-    # m = lcp(3)
-    # m.M[0][1] = fractions.Fraction(2,3)
-    # printout(m)
-    # printout()
-    # exit(0)
 
+def main():
     processArguments()
     printout (f"verbose={verbose} lcpfilename={lcpfilename} silent={silent} z0={z0}")
     # printout (f"{verbose}= {lcpfilename}= {silent}= {z0}=")
@@ -540,3 +534,12 @@ if __name__ == "__main__":
     printout("==================================")
     tabl = tableau(m)
     tabl.runlemke(verbose=verbose, z0=z0, silent=silent)
+
+
+if __name__ == "__main__":
+    # m = lcp(3)
+    # m.M[0][1] = fractions.Fraction(2,3)
+    # printout(m)
+    # printout()
+    # exit(0)
+    main()

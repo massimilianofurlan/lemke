@@ -1,13 +1,12 @@
-#!/usr/bin/python
 # bimatrix class
 
 import sys
 import numpy as np
 import fractions
-import utils
-import columnprint
-import lemke
-import randomstart 
+from . import utils
+from . import columnprint
+from . import lemke
+from . import randomstart
 import random # random.seed
 
 # for debugging
@@ -351,7 +350,8 @@ def submatrix(A,rowset,colset):
             B[i][j] = A[rowset[i]][colset[j]]
     return B
 
-if __name__ == "__main__":
+
+def main():
     processArguments()
     printglobals()
 
@@ -359,3 +359,7 @@ if __name__ == "__main__":
     print(G)
     eqset = G.LH(LHstring)
     eqset = G.tracing(trace)
+
+
+if __name__ == "__main__":
+    main()

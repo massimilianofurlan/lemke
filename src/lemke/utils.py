@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # file utilities
 # tofraction utilities with global decimals
 

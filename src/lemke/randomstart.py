@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import random
 import fractions
 import matplotlib.pyplot as plt
@@ -63,7 +61,7 @@ def maptotriangle(vec):
     y = 3**.5/2 * vec[2]
     return x,y
 
-if __name__ == "__main__":
+def main():
     arglist = sys.argv
     print("Usage: ",arglist[0],
         "[numpoints [accuracy [higherdim ['n[aive]']]]]")
@@ -108,3 +106,7 @@ if __name__ == "__main__":
         plt.scatter([x], [y], s=10000//accuracy, facecolors='none',
             edgecolors='r')
     plt.show() 
+
+
+if __name__ == "__main__":
+    main()
