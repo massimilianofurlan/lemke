@@ -182,30 +182,10 @@ class payoffmatrix:
         self.updatemaxmin(0,self.numcolumns-1)
 
 class bimatrix:
-    # create A,B given m,n 
-    def __init__(self, m, n):
-        self.A = payoffmatrix(m,n)
-        self.B = payoffmatrix(m,n)
-
-    # create A,B from file
-    def __init__(self, filename):
-        lines = utils.stripcomments(filename)
-        # flatten into words
-        words = utils.towords(lines)
-        m = int(words[0])
-        n = int(words[1])
-        needfracs =  2*m*n 
-        if len(words) != needfracs + 2:
-            print("in bimatrix file "+repr(filename)+":")
-            print("m=",m,", n=",n,", need",
-               needfracs,"payoffs, got", len(words)-2)
-            exit(1)
-        k = 2
-        C = utils.tomatrix(m, n, words, k) 
-        self.A = payoffmatrix(C)
-        k+= m*n
-        C = utils.tomatrix(m, n, words, k) 
-        self.B = payoffmatrix(C)
+    # create bimatrix game from matrices A,B
+    def __init__(self, A, B):
+        self.A = payoffmatrix(A)
+        self.B = payoffmatrix(B)
 
     def __str__(self):
         out = "# m,n= \n" + str(self.A.numrows)
@@ -300,16 +280,12 @@ class bimatrix:
                 if eq in trset:
                     trset[eq] += 1
                 else:
-                    print ("found eq", str_eq(eq,m,n), "index",
-                        self.eqindex(eq,m,n))
                     trset[eq] = 1 
-        print ("-------- statistics of equilibria found: --------")
-        for eq in trset:
-            print (trset[eq],"times found ",str_eq(eq,m,n))
-        print(trace,"total priors,",len(trset),"equilibria found")
+
+        return trset
 
     def eqindex(self,eq,m,n):
-        rowset,colset = supports(eq,m,n)
+        rowset,colset = supports(eq,m,n, tol = 1e-15)
         k,l = len(rowset),len(colset)
         if k!=l:
             return 0
@@ -337,10 +313,10 @@ def str_eq(eq,m,n):
     rowset,colset = supports(eq,m,n)
     return x+","+y+"\n    supports: "+str(rowset)+str(colset)
 
-def supports(eq,m,n):
-    rowset = [i for i in range(m) if eq[i]!= 0]
-    colset = [j for j in range(n) if eq[m+j]!= 0]
-    return rowset,colset
+def supports(eq, m, n, tol=0):
+    rowset = [i for i in range(m) if abs(eq[i]) > tol]
+    colset = [j for j in range(n) if abs(eq[m+j]) > tol]
+    return rowset, colset
 
 def submatrix(A,rowset,colset):
     k,l = len(rowset),len(colset)

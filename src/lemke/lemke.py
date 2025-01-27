@@ -9,7 +9,7 @@ from . import utils
 
 # global defaults
 lcpfilename="lcp"
-outfile=lcpfilename+".out"
+outfile="/dev/null" #lcpfilename+".out" (no output to file)
 filehandle = sys.stdout
 verbose=False
 silent=False
